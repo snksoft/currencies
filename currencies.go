@@ -1,5 +1,12 @@
+// Copyright S&K Software Development Ltd.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Package currencies implements ISO 4217 database of currencies allowing to resolve
+// currency name and precision by their numeric or 3-letter codes.
 package currencies
 
+// The currency information
 type Currency struct {
 	code          string
 	number        int
@@ -193,26 +200,32 @@ func init() {
 	}
 }
 
+// GetCode returns 3-letter currency code, e.g. "USD" for US dollar
 func (this *Currency) GetCode() string {
 	return this.code
 }
 
+// GetNumber returns numeric currency code, e.g. 840 for US dollar
 func (this *Currency) GetNumber() int {
 	return this.number
 }
 
+// GetDecimalPlaces returns number of decimal places used in this currency. E.g. 2 for US dollar or 0 for Japanese Yen.
 func (this *Currency) GetDecimalPlaces() int {
 	return this.decimalPlaces
 }
 
+// GetScale returns a multiple that can be used to convert an amount to "amont in lowest denomitation". E.g. 100 for US dollar (to convert dollar amount to amount in cents) or 1 for Japanese Yen (as Yen is the lowest denomination).
 func (this *Currency) GetScale() int {
 	return this.scale
 }
 
+// GetDescription returns a plain english name of the currency. E.g. "United States dollar" for US dollar.
 func (this *Currency) GetDescription() string {
 	return this.description
 }
 
+// GetCurrencyByCode finds a currency by its 3-letter code, returns nil if not present in the database.
 func GetCurrencyByCode(code string) *Currency {
 	ret, ok := currencyByCodeMap[code]
 	if !ok {
@@ -221,6 +234,7 @@ func GetCurrencyByCode(code string) *Currency {
 	return ret
 }
 
+// GetCurrencyByNumber finds a currency by its numeric code, returns nil if not present in the database.
 func GetCurrencyByNumber(number int) *Currency {
 	ret, ok := currencyByNumberMap[number]
 	if !ok {
